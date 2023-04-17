@@ -4,7 +4,6 @@ import axios from "axios";
 import React, { useContext } from "react";
 
 const PokemonFilter = ({ pokemon }) => {
-  
   const [favorito, setFavorito] = useContext(FavoritoContext);
 
   return (
@@ -20,7 +19,12 @@ const PokemonFilter = ({ pokemon }) => {
             alt="img"
           />
 
-          <button onClick={() => setFavorito([...favorito, pokemon[0]])} className="bg-green-600 hover:bg-green-800 py-2 px-3 rounded-md text-white font-semibold">Agregar a Favorito</button>
+          <button
+            onClick={() => setFavorito([...favorito, pokemon[0]])}
+            className="bg-green-600 hover:bg-green-800 py-2 px-3 rounded-md text-white font-semibold"
+          >
+            Agregar a Favorito
+          </button>
         </div>
       </div>
     </Layout>
@@ -29,23 +33,24 @@ const PokemonFilter = ({ pokemon }) => {
 
 export default PokemonFilter;
 
-// export const getStaticPaths = async (ctx) => {
-//   const pokemons = [...Array(200)].map((value, i) => `${i + 1}`);
+export const getStaticPaths = async () => {
 
-//   return {
-//     paths: pokemons.map((id) => ({
-//       params: { id },
-//     })),
-//     fallback: false,
-//   };
-// };
+  const pokemons = [...Array(200)].map(( value, i ) => `${i + 1}`);
 
+  return {
+    paths : pokemons.map(id => ({
+      params: {id}
+    })),
+    fallback: false,
+  };
+};
 
-export const getServerSideProps = async ({params: {id}}) => {
+export const getStaticProps = async ({ params: { id } }) => {
   const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
 
   const pokemon = await data.forms.map((poke) => ({
     ...poke,
+    id: id,
     img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`,
   }));
 
@@ -54,9 +59,9 @@ export const getServerSideProps = async ({params: {id}}) => {
       pokemon,
     },
   };
-}
+};
 
-// export const getStaticProps = async ({ params: { id } }) => {
+// export const getServerSideProps = async ({params: {id}}) => {
 //   const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
 
 //   const pokemon = await data.forms.map((poke) => ({
@@ -69,4 +74,4 @@ export const getServerSideProps = async ({params: {id}}) => {
 //       pokemon,
 //     },
 //   };
-// };
+// }

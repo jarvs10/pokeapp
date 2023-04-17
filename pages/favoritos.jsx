@@ -6,11 +6,9 @@ import React, { useContext } from "react";
 const Favoritos = () => {
   const [favorito] = useContext(FavoritoContext);
 
-  console.log(favorito);
-
   return (
     <Layout title="Favorites" description="Favorites Pokemon">
-      <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8'>
+      <div className='grid sm:grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 gap-4 mt-8'>
       {favorito.map((pokemon) => {
           return (
             <Pokemons 
